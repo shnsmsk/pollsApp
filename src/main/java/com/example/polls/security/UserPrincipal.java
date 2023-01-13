@@ -70,6 +70,14 @@ public class UserPrincipal implements UserDetails {
         return authorities;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String getPassword() {
         return this.password;

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PoleRepository extends JpaRepository<Poll,Long> {
+public interface PollRepository extends JpaRepository<Poll,Long> {
     Optional<Poll> findById(Long pollId);
 
     Page<Poll> findByCreatedBy(Long userId, Pageable pageable);
