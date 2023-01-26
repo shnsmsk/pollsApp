@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -32,6 +33,8 @@ public class UserController {
     @Autowired
     private PollService pollService;
 
+
+
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/user/me")
@@ -47,8 +50,8 @@ public class UserController {
     }
 
     @GetMapping("/user/checkEmailAvailability")
-    public UserIdentityAvailability checkEmailAvailability(@RequestParam(value = "email") String email) {
-        Boolean isAvailable = !userRepository.existsByEmail(email);
+    public UserIdentityAvailability checkEmailAvailability(@RequestParam(value = "email", required = false) String email) {
+        Boolean isAvailable = userRepository.existsByEmail(email);
         return new UserIdentityAvailability(isAvailable);
     }
 

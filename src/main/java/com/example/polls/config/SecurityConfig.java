@@ -3,6 +3,7 @@ package com.example.polls.config;
 import com.example.polls.security.CustomUserDetailService;
 import com.example.polls.security.JwtAuthenticationEntryPoint;
 import com.example.polls.security.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,11 +22,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-
+    @Autowired
     private CustomUserDetailService customUserDetailService;
 
-
+    @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
+
 
     public SecurityConfig(CustomUserDetailService customUserDetailService, JwtAuthenticationEntryPoint unauthorizedHandler) {
         this.customUserDetailService = customUserDetailService;
@@ -80,7 +82,7 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
                 .permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**")
+                .requestMatchers(HttpMethod.GET,"/api/polls/**", "/api/users/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated();

@@ -37,6 +37,7 @@ public class PollController {
 
     private static final Logger logger = LoggerFactory.getLogger(PollController.class);
 
+
     @GetMapping
     public PagedResponse<PollResponse> getPolls(@CurrentUser UserPrincipal currentUser,
                                                 @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,

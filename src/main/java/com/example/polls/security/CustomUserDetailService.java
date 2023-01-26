@@ -14,17 +14,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 
-    @Autowired
+
     UserRepository userRepository;
+
+    public CustomUserDetailService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         // Let people login with either username or email
-        User user = userRepository.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail)
-                );
-
+        User user;
+        if (usernameOrEmail.contains("@")) {
+          user=userRepository.findByEmail(usernameOrEmail).orElseThrow(() ->
+                    new UsernameNotFoundException("User not found email : " + usernameOrEmail)
+            );
+        }
+        else{
+          user=userRepository.findByUsername(usernameOrEmail).orElseThrow(() ->
+                    new UsernameNotFoundException("User not found with username : " + usernameOrEmail)
+            );
+        }
 
         return UserPrincipal.create(user);
     }

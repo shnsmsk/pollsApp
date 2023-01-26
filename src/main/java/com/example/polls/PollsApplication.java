@@ -1,6 +1,11 @@
 package com.example.polls;
 
+import com.example.polls.controller.UserController;
+import com.example.polls.payload.UserIdentityAvailability;
+import com.example.polls.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -14,7 +19,20 @@ import java.util.TimeZone;
 		PollsApplication.class,
 		Jsr310JpaConverters.class
 })
-public class PollsApplication {
+public class PollsApplication  implements CommandLineRunner {
+
+	@Autowired
+	UserController userController;
+
+	@Autowired
+	UserRepository userRepository;
+
+
+	UserIdentityAvailability userIdentityAvailability;
+
+	public PollsApplication(UserController userController) {
+		this.userController = userController;
+	}
 
 	@PostConstruct
 	void init(){
@@ -25,4 +43,15 @@ public class PollsApplication {
 		SpringApplication.run(PollsApplication.class, args);
 	}
 
+	@Override
+	public void run(String... args) throws Exception {
+
+
+	}
 }
+
+
+
+
+
+

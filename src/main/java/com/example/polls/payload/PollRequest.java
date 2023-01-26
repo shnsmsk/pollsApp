@@ -1,6 +1,6 @@
 package com.example.polls.payload;
 
-import jakarta.persistence.*;
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,6 +21,12 @@ public class PollRequest {
     @NotNull
     @Valid
     private PollLength pollLength;
+
+    public PollRequest(String question, List<ChoiceRequest> choices, PollLength pollLength) {
+        this.question = question;
+        this.choices = choices;
+        this.pollLength = pollLength;
+    }
 
     public String getQuestion() {
         return question;

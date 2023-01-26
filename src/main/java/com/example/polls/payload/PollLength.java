@@ -13,6 +13,11 @@ public class PollLength {
     @Max(23)
     private Integer hours;
 
+    public PollLength(Integer days, Integer hours) {
+        this.days = days;
+        this.hours = hours;
+    }
+
     public int getDays() {
         return days;
     }
