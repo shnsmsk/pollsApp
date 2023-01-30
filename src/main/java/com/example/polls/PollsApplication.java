@@ -1,8 +1,15 @@
 package com.example.polls;
 
 import com.example.polls.controller.UserController;
+import com.example.polls.model.Choice;
+import com.example.polls.model.Poll;
+import com.example.polls.payload.ChoiceRequest;
+import com.example.polls.payload.PollLength;
+import com.example.polls.payload.PollRequest;
 import com.example.polls.payload.UserIdentityAvailability;
+import com.example.polls.repository.PollRepository;
 import com.example.polls.repository.UserRepository;
+import com.example.polls.service.PollService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +18,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.TimeZone;
 
 
@@ -26,6 +36,14 @@ public class PollsApplication  implements CommandLineRunner {
 
 	@Autowired
 	UserRepository userRepository;
+
+	PollRequest pollRequest;
+
+	@Autowired
+	PollService pollService;
+
+	@Autowired
+	PollRepository pollRepository;
 
 
 	UserIdentityAvailability userIdentityAvailability;
@@ -45,7 +63,6 @@ public class PollsApplication  implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
 
 	}
 }

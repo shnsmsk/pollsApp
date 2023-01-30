@@ -22,9 +22,9 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private CustomUserDetailService customUserDetailService;
 
@@ -47,10 +47,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
+            filterChain.doFilter(request, response);
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);
         }
-        filterChain.doFilter(request, response);
+
     }
 
 

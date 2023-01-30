@@ -29,17 +29,15 @@ public class SecurityConfig {
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
 
-    public SecurityConfig(CustomUserDetailService customUserDetailService, JwtAuthenticationEntryPoint unauthorizedHandler) {
+
+
+    public SecurityConfig(CustomUserDetailService customUserDetailService, JwtAuthenticationEntryPoint unauthorizedHandler, JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.customUserDetailService = customUserDetailService;
         this.unauthorizedHandler = unauthorizedHandler;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
-
-
-
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
-    }
+    public JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
     @Bean
@@ -80,15 +78,19 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**")
                 .permitAll()
-                .requestMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
+                .requestMatchers("/api/user/checkUsernameAvailability")
                 .permitAll()
-                .requestMatchers(HttpMethod.GET,"/api/polls/**", "/api/users/**")
+                .requestMatchers("/api/user/checkEmailAvailability")
+                .permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/polls/**")
+                .permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/users/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated();
         http.authenticationProvider(authenticationProvider());
 
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

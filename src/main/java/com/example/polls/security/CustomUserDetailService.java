@@ -1,6 +1,7 @@
 package com.example.polls.security;
 
 //import com.example.polls.exception.ResourceNotFoundException;
+import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.User;
 import com.example.polls.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 
-
-    UserRepository userRepository;
-
     public CustomUserDetailService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    UserRepository userRepository;
+
+
 
     @Override
     @Transactional
@@ -43,7 +45,7 @@ public class CustomUserDetailService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(
-                () -> new UsernameNotFoundException("User not found with id : " + id)
+                () -> new ResourceNotFoundException("User", "id", id)
         );
 
         return UserPrincipal.create(user);
