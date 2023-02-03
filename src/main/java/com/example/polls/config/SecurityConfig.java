@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,16 +29,8 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
-
-
-
-    public SecurityConfig(CustomUserDetailService customUserDetailService, JwtAuthenticationEntryPoint unauthorizedHandler, JwtAuthenticationFilter jwtAuthenticationFilter) {
-        this.customUserDetailService = customUserDetailService;
-        this.unauthorizedHandler = unauthorizedHandler;
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
-
-    public JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
     @Bean
@@ -64,6 +57,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
                 .cors()
                 .and()
@@ -78,21 +72,37 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**")
                 .permitAll()
-                .requestMatchers("/api/user/checkUsernameAvailability")
+                .requestMatchers("/",
+                        "/favicon.ico",
+                        "/**/*.png",
+                        "/**/*.gif",
+                        "/**/*.svg",
+                        "/**/*.jpg",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js")
                 .permitAll()
-                .requestMatchers("/api/user/checkEmailAvailability")
-                .permitAll()
+//                .requestMatchers("/api/user/checkUsernameAvailability")
+//                .permitAll()
+//                .requestMatchers("/api/user/checkEmailAvailability")
+//                .permitAll()
                 .requestMatchers(HttpMethod.GET,"/api/polls/**")
-                .permitAll()
+               .permitAll()
                 .requestMatchers(HttpMethod.GET,"/api/users/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated();
+                .permitAll();
+//                .requestMatchers(HttpMethod.POST,"/api/polls/**")
+//                .hasAnyRole("USER","ADMIN")
+//                .anyRequest()
+//                .authenticated();
         http.authenticationProvider(authenticationProvider());
+
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
+
         return http.build();
+
+
     }
 }
 

@@ -13,7 +13,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 @MappedSuperclass
 public abstract class UserDateAudit extends DateAudit{
     @CreatedBy
-    @Column(updatable = false)
+    @Column
     private Long createdBy;
 
     @LastModifiedBy

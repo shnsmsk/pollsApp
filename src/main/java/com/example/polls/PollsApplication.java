@@ -9,6 +9,7 @@ import com.example.polls.payload.PollRequest;
 import com.example.polls.payload.UserIdentityAvailability;
 import com.example.polls.repository.PollRepository;
 import com.example.polls.repository.UserRepository;
+import com.example.polls.security.UserPrincipal;
 import com.example.polls.service.PollService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class PollsApplication  implements CommandLineRunner {
 
 	UserIdentityAvailability userIdentityAvailability;
 
+
+	UserPrincipal userPrincipal;
+
 	public PollsApplication(UserController userController) {
 		this.userController = userController;
 	}
@@ -63,7 +67,13 @@ public class PollsApplication  implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		/***
+		  Poll poll=pollRepository.getReferenceById(1L);
+		System.out.println(poll.getQuestion());
+		poll.setUpdatedBy(8L);
+		poll.setCreatedBy(1L);
+		pollRepository.save(poll);
+		 ***/
 	}
 }
 

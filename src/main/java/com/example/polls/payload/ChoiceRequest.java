@@ -8,6 +8,9 @@ public class ChoiceRequest {
     @Size(max = 40)
     private String text;
 
+    public ChoiceRequest() {
+    }
+
     public ChoiceRequest(String text) {
         this.text = text;
     }

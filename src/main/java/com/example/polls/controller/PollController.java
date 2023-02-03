@@ -20,7 +20,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @CrossOrigin(origins = "http://localhost:3000")
-
 @RestController
 @RequestMapping("/api/polls")
 public class PollController {
@@ -47,9 +46,9 @@ public class PollController {
         return pollService.getAllPolls(currentUser, page, size);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> createPoll(@Valid @RequestBody PollRequest pollRequest) {
+    public ResponseEntity<?> createPoll(@RequestBody PollRequest pollRequest) {
         Poll poll = pollService.createPoll(pollRequest);
 
         URI location = ServletUriComponentsBuilder
