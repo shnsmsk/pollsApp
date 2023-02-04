@@ -72,16 +72,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**")
                 .permitAll()
-                .requestMatchers("/",
-                        "/favicon.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js")
-                .permitAll()
+//                .requestMatchers("/",
+//                        "/favicon.ico",
+//                        "/**/*.png",
+//                        "/**/*.gif",
+//                        "/**/*.svg",
+//                        "/**/*.jpg",
+//                        "/**/*.html",
+//                        "/**/*.css",
+//                        "/**/*.js")
+//                .permitAll()
 //                .requestMatchers("/api/user/checkUsernameAvailability")
 //                .permitAll()
 //                .requestMatchers("/api/user/checkEmailAvailability")
