@@ -24,6 +24,7 @@ public class PagedResponse<T> {
         this.last = last;
     }
 
+
     public List<T> getContent() {
         return content;
     }

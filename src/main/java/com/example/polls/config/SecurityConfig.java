@@ -89,11 +89,11 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET,"/api/polls/**")
                .permitAll()
                 .requestMatchers(HttpMethod.GET,"/api/users/**")
-                .permitAll();
-//                .requestMatchers(HttpMethod.POST,"/api/polls/**")
-//                .hasAnyRole("USER","ADMIN")
-//                .anyRequest()
-//                .authenticated();
+                .permitAll()
+                .requestMatchers(HttpMethod.POST,"/api/polls/**")
+               .hasAnyRole("USER","ADMIN")
+                .anyRequest()
+                .authenticated();
         http.authenticationProvider(authenticationProvider());
 
 

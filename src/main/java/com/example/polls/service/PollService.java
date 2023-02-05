@@ -51,8 +51,9 @@ public class PollService {
         Page<Poll> polls = pollRepository.findAll(pageable);
 
         if(polls.getNumberOfElements() == 0) {
-            return new PagedResponse<>(Collections.emptyList(), polls.getNumber(),
+           return new PagedResponse<>(Collections.emptyList(), polls.getNumber(),
                     polls.getSize(), polls.getTotalElements(), polls.getTotalPages(), polls.isLast());
+
         }
 
         // Map Polls to PollResponses containing vote counts and poll creator details
@@ -61,15 +62,15 @@ public class PollService {
         Map<Long, Long> pollUserVoteMap = getPollUserVoteMap(currentUser, pollIds);
         Map<Long, User> creatorMap = getPollCreatorMap(polls.getContent());
 
-        List<PollResponse> pollResponses = polls.map(poll -> {
-            return ModelMapper.mapPollToPollResponse(poll,
-                    choiceVoteCountMap,
-                    creatorMap.get(poll.getCreatedBy()),
-                    pollUserVoteMap == null ? null : pollUserVoteMap.getOrDefault(poll.getId(), null));
-        }).getContent();
+        List<PollResponse> pollResponses = polls.map(poll -> ModelMapper.mapPollToPollResponse(poll,
+                choiceVoteCountMap,
+                creatorMap.get(poll.getCreatedBy()),
+                pollUserVoteMap == null ? null : pollUserVoteMap.getOrDefault(poll.getId(), null))).getContent();
+
 
         return new PagedResponse<>(pollResponses, polls.getNumber(),
                 polls.getSize(), polls.getTotalElements(), polls.getTotalPages(), polls.isLast());
+
     }
 
     public PagedResponse<PollResponse> getPollsCreatedBy(String username, UserPrincipal currentUser, int page, int size) {
@@ -188,7 +189,7 @@ public class PollService {
             throw new BadRequestException("Sorry! This Poll has already expired");
         }
 
-        User user = userRepository.getOne(currentUser.getId());
+        User user = userRepository.getReferenceById(currentUser.getId());
 
         Choice selectedChoice = poll.getChoices().stream()
                 .filter(choice -> choice.getId().equals(voteRequest.getChoiceId()))
